@@ -5,7 +5,9 @@
   "main": "server.js",
   "scripts": {
     "start": "node server.js",
-    "package-linux": "pkg server.js --debug --config pkg.json --out-path dist",
+    "package-linux": "pkg server.js --debug --config pkg.json -t node14-linux-x64 --out-path dist",
+    "package-win": "pkg server.js --debug --config pkg.json -t node14-win-x64 --out-path dist",
+    "package-mac": "pkg server.js --debug --config pkg.json -t node14-macos-x64 --out-path dist",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "Ryan Burgett <ryan@burgettdev.net>",

@@ -1,8 +1,6 @@
 {
-  "targets": [
-    "node14-linux-x64"
-  ],
   "assets": [
-    "index.html"
+    "index.html",
+    "public/**/*"
   ]
 }
