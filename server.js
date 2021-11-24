@@ -12,7 +12,7 @@ const favicon = require('serve-favicon');
     const port = process.env.PORT || 45896;
     const inUse = await portUsed.check(port);
     if(inUse) {
-      console.log(`\nPort ${port} is already in use. Please stop whatever process is using that or set a PORT environment variable to use a custom port.\n`);
+      console.log(`\nPort ${port} is already in use. Please stop whatever process is using that port and try again.\n`);
       process.exit(1);
     }
 
