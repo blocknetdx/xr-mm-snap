@@ -1,0 +1,23 @@
+{
+  "name": "xr-mm-snap",
+  "version": "0.1.0",
+  "description": "xr-mm-snap",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "package-linux": "pkg server.js --debug --config pkg.json --out-path dist",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Ryan Burgett <ryan@burgettdev.net>",
+  "license": "MIT",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "express": "^4.17.1",
+    "serve-favicon": "^2.5.0",
+    "tcp-port-used": "^1.0.2",
+    "xrouterjs": "git+https://github.com/blocknetdx/xrouterjs.git"
+  },
+  "devDependencies": {
+    "pkg": "^5.4.1"
+  }
+}
