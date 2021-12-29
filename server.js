@@ -5,6 +5,7 @@ const portUsed = require('tcp-port-used');
 const fs = require('fs');
 const path = require('path');
 const favicon = require('serve-favicon');
+const bodyParser = require('body-parser');
 
 (async function() {
   try {
@@ -27,6 +28,8 @@ const favicon = require('serve-favicon');
       console.error(message);
     });
 
+    console.log('client', client);
+
     const startClient = () => {
       client.start()
         .then(success => {
@@ -48,9 +51,37 @@ const favicon = require('serve-favicon');
       .use(cors())
       .use(favicon(path.join(publicDir, 'favicon.ico')))
       .use(express.static(publicDir))
+      .use(bodyParser.json())
+      .use(bodyParser.text())
       .get('/', (req, res) => {
         res.type('text/html')
         res.send(htmlContent);
+      })
+      .post('/', async (req, res) => {
+        const { body = {} } = req;
+        console.log(`RPC request received with data: ${JSON.stringify(body)}`);
+        const { method } = body;
+        let { params } = body;
+        if(!method || !params || !Array.isArray(body.params))
+          return res.sendStatus(400);
+        try {
+          if(method === 'xrGetBlocks' || method === 'xrGetTransactions') {
+            if(typeof params[1] === 'string') {
+              const splitParams = params[1].split(',').map(s => s.trim());
+              if(splitParams.length > 1) {
+                params = [
+                  params[0],
+                  ...params[1].split(',').map(s => s.trim())
+                ];
+              }
+            }
+          }
+          const xrRes = await client.callXrService(method, params);
+          res.send(xrRes);
+        } catch(err) {
+          console.log(err);
+          res.send(JSON.stringify({error: err.message}));
+        }
       })
       .get('/server.js', (req, res) => {
         res.type('text/plain')
